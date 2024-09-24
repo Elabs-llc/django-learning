@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block page_title %}
+Todo App
+{% endblock %}
+{% block content %}
+<h1>Todo Lists</h1>
+<div class="alert" role="alert">
+    {% if messages %}
+        {% for msg in messages %}
+            <div class="alert alert-info alert-dismissable" role="alert">
+                <button class="close" data-dismiss="alert">
+                    <small><sup>x</sup></small>
+                </button>
+                {{msg}}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <hr />
+    {% if all_todos %}
+        {% for todo in all_todos %}
+            {% if todo.completed %}
+                <div class="alert alert-success" role="alert">
+                    <span class="striker" style="text-decoration: line-through;">{{todo.item}}</span>
+                    <a href="{% url 'uncomplete' todo.id %}">
+                        <span class="btn btn-secondary btn-sm">Mark uncompleted </span>
+                    </a>
+                    <a href="{% url 'delete' todo.id%}">
+                        <span class="btn btn-danger btn-sm">Delete </span>
+                    </a>
+                </div>
+            {% else %}
+                <div class="alert alert-secondary" role="alert">
+                    {{todo.item}}
+                    <a href="{% url 'complete' todo.id %}">
+                        <span class="btn btn-outline-success btn-sm">Mark completed </span>
+                    </a>
+                    <a href="{% url 'delete' todo.id%}"><span class="btn btn-danger btn-sm">Delete </span></a>
+
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}
